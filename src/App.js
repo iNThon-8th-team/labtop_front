@@ -8,6 +8,9 @@ import MyPage from "./pages/MyPage.js";
 import LabListPage from "./pages/LabListPage.js";
 import BoardListPage from "./pages/BoardListPage.js";
 import HomePage from "./pages/Homepage.js";
+import Contact from "./pages/Contact.js";
+import ContactEmail from "./pages/ContactEmail.js";
+
 import { AxiosInterceptor } from "./api/axios.js";
 import LabDetailPage from "./pages/LabDetailPage.js";
 import LabWritePage from "./pages/LabWritePage.js";
@@ -39,6 +42,8 @@ const App = () => {
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/auth/signup" element={<SignUpPage />} />
           <Route path="/lab" element={<LabListPage />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/contactemail" element={<ContactEmail />} />
           <Route path="/lab/:labId" element={<LabDetailPage />} />
 
           <Route path="/board" element={<BoardListPage />} />
