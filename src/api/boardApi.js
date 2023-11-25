@@ -2,21 +2,11 @@ import { useEffect } from "react";
 import instance from "./axios";
 
 const BASE_URL = "http://localhost:4000";
-const authApiPrefix = `${BASE_URL}/lab`;
+const boardApiPrefix = `${BASE_URL}/board`;
 
-export const postCategoryApi = async (category) => {
-  const res = await instance.get(`${authApiPrefix}?category=${category}`);
-  return res.data;
-};
-export const postSearchApi = async (search) => {
-  const res = await instance.get(`${authApiPrefix}?search=${search}`);
-  return res.data;
-};
-
-export const fetchLabData = async (labId) => {
-  console.log(`${authApiPrefix}/${labId}`);
+export const fetchBoardData = async (labId) => {
   try {
-    const response = await instance.get(`${authApiPrefix}/${labId}`, {
+    const response = await instance.get(`${boardApiPrefix}/${labId}`, {
       // 필요한 경우, 여기에 헤더나 기타 설정을 추가합니다.
     });
     return response.data; // 응답 데이터를 반환합니다.

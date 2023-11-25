@@ -129,7 +129,12 @@ const LabListPage = () => {
       <Box sx={{ marginTop: "20px", marginLeft: "50px", marginRight: "50px" }}>
         <Grid container spacing={3}>
           {categoryresult?.map((lab) => (
-            <Grid item xs key={lab.name}>
+            <Grid
+              item
+              xs
+              key={lab.name}
+              onClick={() => navigate(`/lab/${lab.id}`)}
+            >
               <Item>
                 <Grid
                   container
