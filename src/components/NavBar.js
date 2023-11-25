@@ -54,7 +54,7 @@ const NavBar = () => {
               color={COLORS.labtopPrimary}
               onClick={() => {
                 navigate("/");
-                changeSelection(navBarEnum.LABLIST);
+                changeSelection(navBarEnum.DEFAULT);
               }}
               sx={{ ":hover": { cursor: "pointer" } }}
             >

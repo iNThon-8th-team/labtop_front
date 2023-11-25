@@ -6,9 +6,8 @@ import oneki from "../img/oneki.png";
 import PhysicalComputing from "../img/physicalcomputing.png";
 import CVLAB from "../img/CVLAB.png";
 import { styled } from "@mui/material/styles";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Button, Chip, Divider, Typography } from "@mui/material";
 import { COLORS } from "../lib/styles/theme";
-import { Block } from "@mui/icons-material";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
@@ -17,30 +16,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import { postSearchApi, postCategoryApi } from "../api/labApi";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import { labCategories } from "../models/labCategories";
 
 function HomePage() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-  const categories = [
-    "경영대학",
-    "문과대학",
-    "생명과학",
-    "정경대학",
-    "이과대학",
-    "공과대학",
-    "의과대학",
-    "사범대학",
-    "간호대학",
-    "정보대학",
-    "국제대학",
-    "보건과학",
-    "디자인",
-    "미디어",
-    "자유전공",
-    "모빌리티",
-    "보안",
-    "심리학부",
-  ];
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -54,7 +34,6 @@ function HomePage() {
     postSearchApi(search)
       .then((res) => {
         console.log(res);
-
         navigate("/lab");
       })
       .catch((err) => {
@@ -71,7 +50,7 @@ function HomePage() {
         navigate("/lab");
       })
       .catch((err) => {
-        enqueueSnackbar("내기에 실패하였습니다.", {
+        enqueueSnackbar("검색에 실패하였습니다.", {
           variant: "error",
         });
       });
@@ -142,29 +121,20 @@ function HomePage() {
               }}
             />
 
-            <Grid container spacing={1}>
-              {categories.map((category, index) => (
-                <Grid item key={category} xs={2}>
-                  <Button
+            <Grid container spacing={1} paddingBottom={1}>
+              {labCategories.map((category, index) => (
+                <Grid item key={category}>
+                  <Chip
+                    size="medium"
+                    variant="outlined"
+                    label={category}
                     sx={{
-                      marginTop: "4px",
-                      marginBottom: "4px",
-                      width: "70px",
-                      height: "30px",
-                      border: 1,
-                      borderColor: COLORS.black,
-                      color: COLORS.black,
                       borderRadius: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "14px",
-                      marginLeft: "6px", // 첫 번째 버튼을 제외하고 왼쪽 여백을 추가합니다.
+                      borderColor: COLORS.black,
+                      fontSize: 14,
                     }}
                     onClick={() => handleCategorySubmit(category)}
-                  >
-                    {category}
-                  </Button>
+                  />
                 </Grid>
               ))}
             </Grid>
