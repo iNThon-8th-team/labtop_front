@@ -13,7 +13,7 @@ export const postLoginApiAuth = async (email, password) => {
     email,
     password,
   });
-
+  console.log(res.data);
   return res.data;
 };
 
