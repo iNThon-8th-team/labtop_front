@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PLRG from "../img/PLRG.png";
 import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import useUserStore from "../stores/LoginUser";
@@ -8,8 +8,9 @@ import LanguageIcon from "@mui/icons-material/Language";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import { COLORS } from "../lib/styles/theme";
 import { useNavigate } from "react-router-dom";
+import { fetchMyLab } from "../api/labApi";
 
-const ProfessorMyPage = ({ user }) => {
+const ProfessorMyPage = ({ user, labData }) => {
   const navigate = useNavigate();
   return (
     <Grid
@@ -119,8 +120,10 @@ const ProfessorMyPage = ({ user }) => {
   );
 };
 
-const UserMyPage = ({ user }) => {
+const UserMyPage = ({ user, labData }) => {
   const navigate = useNavigate();
+  console.log(user);
+  console.log(labData);
   return (
     <Grid
       container
@@ -215,10 +218,31 @@ const UserMyPage = ({ user }) => {
 
 const MyPage = () => {
   const { User } = useUserStore();
+
+  const [labData, setLabData] = useState({});
+
+  useEffect(() => {
+    const getLabData = async () => {
+      try {
+        const labData = await fetchMyLab();
+        if (labData) {
+          console.log(labData);
+          setLabData(labData);
+        }
+      } catch (error) {
+        // 에러 처리
+      }
+    };
+
+    if (User.isProfessor || User.isResearcher) {
+      getLabData();
+    }
+  }, [User]);
+
   return User.isProfessor ? (
-    <ProfessorMyPage user={User} />
+    <ProfessorMyPage user={User} labData={labData} />
   ) : (
-    <UserMyPage user={User} />
+    <UserMyPage user={User} labData={labData} />
   );
 };
 
