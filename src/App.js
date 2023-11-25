@@ -10,6 +10,7 @@ import BoardListPage from "./pages/BoardListPage.js";
 import HomePage from "./pages/Homepage.js";
 import Contact from "./pages/Contact.js";
 import ContactEmail from "./pages/ContactEmail.js";
+import EmailPage from "./pages/EmailPage.js";
 
 import { AxiosInterceptor } from "./api/axios.js";
 import LabDetailPage from "./pages/LabDetailPage.js";
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/contactemail" element={<ContactEmail />} />
           <Route path="/lab/:labId" element={<LabDetailPage />} />
+          <Route path="/email" element={<EmailPage />} />
 
           <Route path="/board" element={<BoardListPage />} />
           <Route element={<AuthRoute />}>
