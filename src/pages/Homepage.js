@@ -34,10 +34,7 @@ function HomePage() {
     postSearchApi(search)
       .then((res) => {
         console.log(res);
-
-
         navigate("/lab", { state: { searchresult: search } });
-
       })
       .catch((err) => {
         enqueueSnackbar("검색에 실패하였습니다.", {
