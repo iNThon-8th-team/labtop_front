@@ -110,7 +110,11 @@ const ProfessorMyPage = ({ user, labData }) => {
           </Button>
         </Grid>
         <Grid item xs={5} md={3}>
-          <Button sx={{ width: "100%", height: "50px" }} variant="contained">
+          <Button
+            sx={{ width: "100%", height: "50px" }}
+            variant="contained"
+            onClick={() => navigate("/publish/write")}
+          >
             <Typography variant="h4" color={COLORS.white}>
               새 논문 등록하기
             </Typography>

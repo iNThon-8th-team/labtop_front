@@ -16,6 +16,7 @@ import LabDetailPage from "./pages/LabDetailPage.js";
 import LabWritePage from "./pages/LabWritePage.js";
 import { SnackbarProvider } from "notistack";
 import StyledMaterialDesignContent from "./lib/styles/CustomSnackbarProvider.js";
+import PublishWritePage from "./pages/PublishWritePage.js";
 
 const AuthRoute = () => {
   const { isLogin } = useUserStore();
@@ -50,6 +51,7 @@ const App = () => {
           <Route element={<AuthRoute />}>
             <Route path="/my" element={<MyPage />} />
             <Route path="/lab/write" element={<LabWritePage />} />
+            <Route path="/publish/write" element={<PublishWritePage />} />
           </Route>
         </Route>
       </Routes>
