@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { labCategories } from "../models/labCategories";
 
 function HomePage() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(null);
   const navigate = useNavigate();
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -34,7 +34,10 @@ function HomePage() {
     postSearchApi(search)
       .then((res) => {
         console.log(res);
-        navigate("/lab");
+
+
+        navigate("/lab", { state: { searchresult: search } });
+
       })
       .catch((err) => {
         enqueueSnackbar("검색에 실패하였습니다.", {
@@ -47,7 +50,7 @@ function HomePage() {
     postCategoryApi(category)
       .then((res) => {
         console.log(res);
-        navigate("/lab");
+        navigate("/lab", { state: { result: category } });
       })
       .catch((err) => {
         enqueueSnackbar("검색에 실패하였습니다.", {
@@ -175,6 +178,7 @@ function HomePage() {
               sx={{
                 height: "140px",
               }}
+              onClick={() => navigate(`/lab/21`)}
             >
               <img src={oneki} alt="oneki" width="360px" height="100px" />
               <Typography variant="h4">정원기 교수</Typography>
