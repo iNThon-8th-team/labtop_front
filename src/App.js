@@ -10,6 +10,7 @@ import BoardListPage from "./pages/BoardListPage.js";
 import HomePage from "./pages/Homepage.js";
 import { AxiosInterceptor } from "./api/axios.js";
 import LabDetailPage from "./pages/LabDetailPage.js";
+import LabWritePage from "./pages/LabWritePage.js";
 import { SnackbarProvider } from "notistack";
 import StyledMaterialDesignContent from "./lib/styles/CustomSnackbarProvider.js";
 
@@ -39,12 +40,13 @@ const App = () => {
           <Route path="/auth/signup" element={<SignUpPage />} />
 
           <Route path="/lab" element={<LabListPage />} />
-
           <Route path="/lab/:labId" element={<LabDetailPage />} />
+
           <Route path="/board" element={<BoardListPage />} />
 
           <Route element={<AuthRoute />}>
             <Route path="/my" element={<MyPage />} />
+            <Route path="/lab/write" element={<LabWritePage />} />
           </Route>
         </Route>
       </Routes>
