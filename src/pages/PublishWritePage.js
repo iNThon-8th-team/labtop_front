@@ -2,15 +2,21 @@ import { useState } from "react";
 import { Box } from "@mui/system";
 import { Button, TextField, Typography } from "@mui/material";
 import { COLORS } from "../lib/styles/theme";
+import { postPublication } from "../api/publicationApi";
+import { useNavigate } from "react-router";
 
 const PublishWritePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [link, setLink] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Form Submitted", { title, content, link });
+    postPublication(title, content, link).then((res) => {
+      navigate("/my");
+    });
   };
 
   return (
