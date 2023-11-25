@@ -12,6 +12,7 @@ import { fetchMyLab } from "../api/labApi";
 
 const ProfessorMyPage = ({ user, labData }) => {
   const navigate = useNavigate();
+  console.log(labData);
   return (
     <Grid
       container
@@ -62,7 +63,7 @@ const ProfessorMyPage = ({ user, labData }) => {
                 <BiotechIcon />
               </Grid>
               <Grid item>
-                <Typography variant="h4">{"연구소 이름"}</Typography>
+                <Typography variant="h4">{labData.name}</Typography>
               </Grid>
             </Grid>
             <Grid container spacing={1} paddingX={1}>
@@ -70,7 +71,7 @@ const ProfessorMyPage = ({ user, labData }) => {
                 <LanguageIcon />
               </Grid>
               <Grid item>
-                <Typography variant="h4">{"연구소 사이트 주소"}</Typography>
+                <Typography variant="h4">{labData.introduction}</Typography>
               </Grid>
             </Grid>
             <Grid container spacing={1} paddingX={1}>
@@ -212,6 +213,26 @@ const UserMyPage = ({ user, labData }) => {
         </Grid>
       </Card>
       <Box padding="10px" />
+      <Grid container spacing={5} justifyContent="center">
+        <Grid item xs={5} md={3}>
+          <Button
+            sx={{ width: "100%", height: "50px" }}
+            variant="contained"
+            onClick={() => navigate("/")}
+          >
+            <Typography variant="h4" color={COLORS.white}>
+              내 포토폴리오 관리하기
+            </Typography>
+          </Button>
+        </Grid>
+        <Grid item xs={5} md={3}>
+          <Button sx={{ width: "100%", height: "50px" }} variant="contained">
+            <Typography variant="h4" color={COLORS.white}>
+              새 스터디 글 작성하기
+            </Typography>
+          </Button>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
@@ -224,9 +245,8 @@ const MyPage = () => {
   useEffect(() => {
     const getLabData = async () => {
       try {
-        const labData = await fetchMyLab();
+        const labData = await fetchMyLab(User.id);
         if (labData) {
-          console.log(labData);
           setLabData(labData);
         }
       } catch (error) {

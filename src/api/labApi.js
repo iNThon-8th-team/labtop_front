@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import instance from "./axios";
 
 const BASE_URL = "http://localhost:4000";
@@ -43,8 +42,7 @@ export const fetchLabData = async (labId) => {
   }
 };
 
-export const fetchMyLab = async () => {
-  const res = await instance.get(`${authApiPrefix}/my`);
-  console.log(res);
+export const fetchMyLab = async (userId) => {
+  const res = await instance.get(`${authApiPrefix}/my/${userId}`);
   return res.data[0];
 };
