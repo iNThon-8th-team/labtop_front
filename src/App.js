@@ -1,18 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
-import useStore from './store.js'
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 
+import useUserStore from "./stores/LoginUser.js";
+import Layout from "./pages/Layout.js";
+import LoginPage from "./pages/Auth/LoginPage.js";
+import SignUpPage from "./pages/Auth/SignUpPage.js";
+import MyPage from "./pages/MyPage.js";
+import LabListPage from "./pages/LabListPage.js";
+import BoardListPage from "./pages/BoardListPage.js";
+
+import { AxiosInterceptor } from "./api/axios.js";
+
+const AuthRoute = () => {
+  const { isLogin } = useUserStore();
+  return isLogin ? <Outlet /> : <Navigate to="/auth/login" />;
+};
 
 const App = () => {
-  const { bears, increasePopulation, removeAllBears } = useStore(state => state)
-  
   return (
     <>
-      <h1>{bears} around here ...</h1>
-      <button onClick={increasePopulation}>one up</button>
-      <button onClick={removeAllBears}>remove all</button>
-    </>
-  )
-}
+      <AxiosInterceptor />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Navigate replace to="/lab" />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/auth/signup" element={<SignUpPage />} />
 
-export default App
+          <Route path="/lab" element={<LabListPage />} />
+          <Route path="/board" element={<BoardListPage />} />
+
+          <Route element={<AuthRoute />}>
+            <Route path="/my" element={<MyPage />} />
+          </Route>
+        </Route>
+      </Routes>
+    </>
+  );
+};
+
+export default App;

@@ -1,0 +1,9 @@
+export const navBarEnum = {
+  LABLIST: "LABLIST",
+  BOARD: "BOARD",
+  MYPAGE: "MYPAGE",
+  LOGOUT: "LOGOUT",
+  SIGNUP: "SIGNUP",
+  LOGIN: "LOGIN",
+  DEFAULT: "DEFAULT",
+};
