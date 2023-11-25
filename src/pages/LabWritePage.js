@@ -13,6 +13,8 @@ import { labCategories } from "../models/labCategories";
 import { COLORS } from "../lib/styles/theme";
 import { fetchMyLab, postLabApi, putLabApi } from "../api/labApi";
 import { enqueueSnackbar } from "notistack";
+import useUserStore from "../stores/LoginUser";
+import { useNavigate } from "react-router";
 
 const LabWritePage = () => {
   const [name, setName] = useState("");
@@ -20,16 +22,19 @@ const LabWritePage = () => {
   const [category, setCategory] = useState("");
 
   const [lab, setLab] = useState({});
+  const { User } = useUserStore();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getLabData = async () => {
       try {
-        const labData = await fetchMyLab();
+        const labData = await fetchMyLab(User.id);
         if (labData) {
           setLab(labData);
-          setName(lab.name);
-          setIntroduction(lab.introduction);
-          setCategory(lab.category);
+          setName(labData.name);
+          setIntroduction(labData.introduction ? labData.introduction : "");
+          setCategory(labData.category);
         }
       } catch (error) {
         // 에러 처리
@@ -59,11 +64,13 @@ const LabWritePage = () => {
       return;
     }
 
+    console.log(lab.id);
     if (lab.id) {
       putLabApi(lab.id, name, introduction, category);
     } else {
       postLabApi(name, introduction, category);
     }
+    navigate("/my");
   };
 
   return (
