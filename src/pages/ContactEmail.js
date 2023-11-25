@@ -4,7 +4,6 @@ import { Box, TextField, Button, Typography } from "@mui/material";
 
 const ContactForm = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
@@ -12,7 +11,7 @@ const ContactForm = () => {
     event.preventDefault();
     // 폼 제출 로직을 여기에 구현합니다.
     // 예: 서버로 POST 요청을 보내는 코드
-    console.log("Form Submitted", { name, email, subject, message });
+    console.log("Form Submitted", { name, subject, message });
   };
 
   return (
