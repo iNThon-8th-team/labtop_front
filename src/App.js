@@ -7,7 +7,7 @@ import SignUpPage from "./pages/Auth/SignUpPage.js";
 import MyPage from "./pages/MyPage.js";
 import LabListPage from "./pages/LabListPage.js";
 import BoardListPage from "./pages/BoardListPage.js";
-
+import HomePage from "./pages/Homepage.js";
 import { AxiosInterceptor } from "./api/axios.js";
 import LabDetailPage from "./pages/LabDetailPage.js";
 
@@ -22,7 +22,7 @@ const App = () => {
       <AxiosInterceptor />
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Navigate replace to="/lab" />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/auth/signup" element={<SignUpPage />} />
 
