@@ -40,7 +40,7 @@ export const customTheme = createTheme({
     },
     h1: {
       fontWeight: 400,
-      fontSize: 150,
+      fontSize: 45,
     },
     h2: {
       fontWeight: 600,
