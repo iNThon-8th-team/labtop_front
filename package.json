@@ -5,7 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@mui/icons-material": "^5.11.16",
+    "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.12.2",
     "axios": "^1.6.2",
     "notistack": "^3.0.1",
