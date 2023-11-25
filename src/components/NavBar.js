@@ -16,8 +16,6 @@ const NavBar = () => {
   const { NavBarSelection, changeSelection } = useNavBarStore();
 
   const [logoutAlert, setLogoutAlert] = useState(false);
-  const [prevNavBarEnum, setPrevNavBarEnum] = useState(null);
-  const [open, setOpen] = useState(false);
 
   const NavBarButton = (props) => {
     return (
@@ -146,9 +144,7 @@ const NavBar = () => {
             open={logoutAlert}
             setOpen={setLogoutAlert}
             action={() => {
-              postLogoutApiAuth().then(() =>
-                localStorage.removeItem(AUTH_TOKEN_NAME)
-              );
+              localStorage.removeItem(AUTH_TOKEN_NAME);
               logoutUser();
               enqueueSnackbar("로그아웃 완료", {
                 variant: "success",

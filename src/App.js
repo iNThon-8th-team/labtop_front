@@ -10,6 +10,8 @@ import BoardListPage from "./pages/BoardListPage.js";
 import HomePage from "./pages/Homepage.js";
 import { AxiosInterceptor } from "./api/axios.js";
 import LabDetailPage from "./pages/LabDetailPage.js";
+import { SnackbarProvider } from "notistack";
+import StyledMaterialDesignContent from "./lib/styles/CustomSnackbarProvider.js";
 
 const AuthRoute = () => {
   const { isLogin } = useUserStore();
@@ -18,7 +20,17 @@ const AuthRoute = () => {
 
 const App = () => {
   return (
-    <>
+    <SnackbarProvider
+      maxSnack={3}
+      anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+      Components={{
+        default: StyledMaterialDesignContent,
+        success: StyledMaterialDesignContent,
+        error: StyledMaterialDesignContent,
+        warning: StyledMaterialDesignContent,
+        info: StyledMaterialDesignContent,
+      }}
+    >
       <AxiosInterceptor />
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -36,7 +48,7 @@ const App = () => {
           </Route>
         </Route>
       </Routes>
-    </>
+    </SnackbarProvider>
   );
 };
 

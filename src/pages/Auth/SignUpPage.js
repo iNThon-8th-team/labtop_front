@@ -1,5 +1,15 @@
 import React from "react";
-import { Box, Button, Card, Typography, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Typography,
+  Grid,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel,
+} from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthInputComponent from "./AuthInputComponent";
@@ -13,15 +23,16 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const { changeSelection } = useNavBarStore();
 
-  const [userNm, setUserNm] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
+  const [isProf, setIsProf] = useState(false);
   const [remember, setRemember] = useState(false);
 
   const handleSubmit = () => {
-    if (userNm.length < 3 || userNm.length > 20) {
-      enqueueSnackbar("3자 이상 20자 이하의 닉네임을 사용해주세요.", {
+    if (username.length < 3 || username.length > 20) {
+      enqueueSnackbar("2자 이상 20자 이하의 이름을 사용해주세요.", {
         variant: "warning",
       });
       return;
@@ -50,7 +61,7 @@ const SignUpPage = () => {
       return;
     }
 
-    postRegisterApiAuth(email, password, userNm)
+    postRegisterApiAuth(email, password, username, isProf)
       .then((res) => {
         localStorage.setItem("remember", email);
         enqueueSnackbar("회원가입에 성공하였습니다.", {
@@ -96,16 +107,47 @@ const SignUpPage = () => {
                 width={"80vw"}
               >
                 <Grid container spacing={2} direction="column">
-                  <AuthInputComponent
-                    value={userNm}
-                    label={"닉네임"}
-                    setValue={setUserNm}
-                  />
+                  <RadioGroup
+                    row
+                    defaultValue="prof"
+                    onChange={(e, value) => {
+                      setIsProf(value === "prof");
+                    }}
+                  >
+                    <FormLabel
+                      style={{
+                        color: COLORS.black,
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      회원 유형
+                    </FormLabel>
+                    <FormControlLabel
+                      value="prof"
+                      control={<Radio />}
+                      label="교수"
+                    />
+                    <FormControlLabel
+                      value="student"
+                      control={<Radio />}
+                      label="학생"
+                    />
+                  </RadioGroup>
+
                   <AuthInputComponent
                     value={email}
                     label={"이메일"}
                     setValue={setEmail}
                   />
+                  <AuthInputComponent
+                    value={username}
+                    label={"이름"}
+                    setValue={setUsername}
+                  />
+
                   <AuthInputComponent
                     value={password}
                     label={"비밀번호"}
@@ -123,12 +165,13 @@ const SignUpPage = () => {
                   <Grid item margin={"10px"}>
                     <Button
                       variant="contained"
+                      sx={{ paddingY: "10px" }}
                       fullWidth
                       onClick={() => {
                         handleSubmit();
                       }}
                     >
-                      회원가입하기
+                      <Typography variant="h5">회원가입하기</Typography>
                     </Button>
                   </Grid>
                   <Box

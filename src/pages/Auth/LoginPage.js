@@ -41,11 +41,14 @@ const LoginPage = () => {
 
     postLoginApiAuth(email, password)
       .then((res) => {
+        console.log(res);
         changeSelection(navBarEnum.DEFAULT);
         loginUser({
+          id: res.id,
           email: res.email,
-          userNm: res.userNm,
-          refresh_token: res.refreshToken,
+          username: res.username,
+          isProfessor: res.isProfessor,
+          isResearcher: res.isResearcher,
         });
         localStorage.setItem(AUTH_TOKEN_NAME, res.accessToken);
         if (remember) localStorage.setItem("remember", email);
@@ -112,7 +115,7 @@ const LoginPage = () => {
                     onClick={() => {
                       setRemember(!remember);
                     }}
-                    sx={{ ":hover": { cursor: "pointer" } }}
+                    sx={{ ":hover": { cursor: "pointer" }, paddingX: "10px" }}
                   >
                     <Checkbox checked={remember} sx={{ marginLeft: "5px" }} />
                     <Typography>Remeber Email</Typography>
@@ -120,12 +123,13 @@ const LoginPage = () => {
                   <Grid item marginBottom={"10px"}>
                     <Button
                       variant="contained"
+                      sx={{ paddingY: "10px" }}
                       fullWidth
                       onClick={() => {
                         handleSubmit();
                       }}
                     >
-                      로그인하기
+                      <Typography variant="h5">로그인하기</Typography>
                     </Button>
                   </Grid>
                   <Box
