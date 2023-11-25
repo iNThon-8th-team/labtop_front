@@ -42,3 +42,9 @@ export const fetchLabData = async (labId) => {
     throw error; // 에러를 재발생시켜 필요한 경우 상위 컴포넌트에서 처리할 수 있게 합니다.
   }
 };
+
+export const fetchMyLab = async () => {
+  const res = await instance.get(`${authApiPrefix}/my`);
+  console.log(res);
+  return res.data[0];
+};

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomInputComponent from "../components/CustomInputComponent";
 import {
   Box,
@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { labCategories } from "../models/labCategories";
 import { COLORS } from "../lib/styles/theme";
-import { postLabApi, putLabApi } from "../api/labApi";
+import { fetchMyLab, postLabApi, putLabApi } from "../api/labApi";
 import { enqueueSnackbar } from "notistack";
 
 const LabWritePage = () => {
@@ -19,7 +19,26 @@ const LabWritePage = () => {
   const [introduction, setIntroduction] = useState("");
   const [category, setCategory] = useState("");
 
-  const lab = undefined;
+  const [lab, setLab] = useState({});
+
+  useEffect(() => {
+    const getLabData = async () => {
+      try {
+        const labData = await fetchMyLab();
+        if (labData) {
+          setLab(labData);
+          setName(lab.name);
+          setIntroduction(lab.introduction);
+          setCategory(lab.category);
+        }
+      } catch (error) {
+        // 에러 처리
+      }
+    };
+
+    getLabData();
+  }, []);
+
   const handleSubmit = () => {
     if (name.length < 5 || name.length > 255) {
       enqueueSnackbar("연구실 이름을 5자 이상으로 적어주세요.", {
@@ -40,7 +59,7 @@ const LabWritePage = () => {
       return;
     }
 
-    if (lab) {
+    if (lab.id) {
       putLabApi(lab.id, name, introduction, category);
     } else {
       postLabApi(name, introduction, category);
