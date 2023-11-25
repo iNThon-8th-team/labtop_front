@@ -6,22 +6,31 @@ const useUserStore = create(
   persist(
     (set, get) => ({
       isLogin: false,
-      User: { email: "", username: "" },
-      refreshToken: "",
+      User: {
+        id: 0,
+        email: "",
+        username: "",
+        isProfessor: false,
+        isResearcher: false,
+      },
 
       loginUser: (input) => {
         set(() => ({
           isLogin: true,
-          User: { email: input.email, usename: input.username },
-          refresh_token: input.refreshToken,
+          User: input,
         }));
       },
 
       logoutUser: () => {
         set(() => ({
           isLogin: false,
-          User: { email: "", username: "" },
-          refreshToken: "",
+          User: {
+            id: 0,
+            email: "",
+            username: "",
+            isProfessor: false,
+            isResearcher: false,
+          },
         }));
         sessionStorage.removeItem("userStoragekey");
       },

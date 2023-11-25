@@ -1,13 +1,11 @@
 import instance from "./axios";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "http://localhost:4000";
 const authApiPrefix = `${BASE_URL}/auth`;
 
 const authApiEndPoints = {
-  POST_LOGIN: `${authApiPrefix}/login`,
-  POST_LOGOUT: `${authApiPrefix}/logout`,
-  POST_REGISTER: `${authApiPrefix}/register`,
-  POST_REISSUE: `${authApiPrefix}/reissue`,
+  POST_LOGIN: `${authApiPrefix}/signIn`,
+  POST_REGISTER: `${authApiPrefix}/signUp`,
 };
 
 export const postLoginApiAuth = async (email, password) => {
@@ -19,23 +17,19 @@ export const postLoginApiAuth = async (email, password) => {
   return res.data;
 };
 
-export const postLogoutApiAuth = async () => {
-  const res = await instance.post(authApiEndPoints.POST_LOGOUT, {});
-  return res.data;
-};
-
-export const postRegisterApiAuth = async (email, password, usename) => {
+export const postRegisterApiAuth = async (
+  email,
+  password,
+  username,
+  isProfessor
+) => {
   const res = await instance.post(authApiEndPoints.POST_REGISTER, {
     email,
     password,
-    usename,
+    username,
+    isProfessor,
   });
-  return res.data;
-};
+  console.log(res);
 
-export const postReissueApiAuth = async (refresh_token) => {
-  const res = await instance.post(authApiEndPoints.POST_REISSUE, {
-    refresh_token,
-  });
   return res.data;
 };

@@ -29,18 +29,6 @@ export const AxiosInterceptor = () => {
   instance.interceptors.response.use(
     (res) => res,
     async (error) => {
-      if (error?.response?.status === 401) {
-        console.log("토큰 만료");
-        postReissueApiAuth(refreshToken)
-          .then((res) => {
-            localStorage.setItem(AUTH_TOKEN_NAME, res.token);
-          })
-          .catch(() => {
-            localStorage.removeItem(AUTH_TOKEN_NAME);
-            logoutUser();
-            navigate("/");
-          });
-      }
       return await Promise.reject(error);
     }
   );
