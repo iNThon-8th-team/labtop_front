@@ -6,14 +6,12 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import BiotechIcon from "@mui/icons-material/Biotech";
 import LanguageIcon from "@mui/icons-material/Language";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
-import { AspectRatio } from "@mui/icons-material";
-import { border, borderRadius } from "@mui/system";
 import { COLORS } from "../lib/styles/theme";
 import { useNavigate } from "react-router-dom";
+import { fetchMyLab } from "../api/labApi";
 
-const ProfessorMyPage = ({ user }) => {
+const ProfessorMyPage = ({ user, labData }) => {
   const navigate = useNavigate();
-  console.log(user);
   return (
     <Grid
       container
@@ -122,10 +120,130 @@ const ProfessorMyPage = ({ user }) => {
   );
 };
 
+const UserMyPage = ({ user, labData }) => {
+  const navigate = useNavigate();
+  console.log(user);
+  console.log(labData);
+  return (
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Card
+        sx={{
+          paddingX: "40px",
+          paddingY: "20px",
+          margin: "10px",
+          width: "80%",
+          maxWidth: "800px",
+        }}
+      >
+        <Typography variant="h2" align="center">
+          내 정보
+        </Typography>
+        <Box padding="10px" />
+        <Grid container spacing={3} justifyContent="space-between">
+          <Grid item>
+            <Grid
+              container
+              spacing={1}
+              paddingX={1}
+              paddingY={2}
+              alignItems="flex-end"
+            >
+              <Grid item>
+                <Typography variant="h2">{user.username}</Typography>
+              </Grid>
+              <Grid item>
+                <Typography>학생</Typography>
+              </Grid>
+            </Grid>
+            <Grid container spacing={1} paddingX={1}>
+              <Grid item>
+                <MailOutlineIcon />
+              </Grid>
+              <Grid item>
+                <Typography variant="h4">{user.email}</Typography>
+              </Grid>
+            </Grid>
+            {user.isResearcher ?? (
+              <>
+                <Grid container spacing={1} paddingX={1}>
+                  <Grid item>
+                    <BiotechIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="h4">{"연구소 이름"}</Typography>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={1} paddingX={1}>
+                  <Grid item>
+                    <LanguageIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="h4">{"연구소 사이트 주소"}</Typography>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={1} paddingX={1}>
+                  <Grid item>
+                    <CollectionsBookmarkOutlinedIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="h4">{"논문 개수"}</Typography>
+                  </Grid>
+                </Grid>
+              </>
+            )}
+          </Grid>
+          <Grid item paddingX={2}>
+            <Box width="200px" height="200px">
+              <img
+                src={PLRG}
+                alt="Professor"
+                width="200px"
+                height="200px"
+                style={{ borderRadius: "100%", objectFit: "cover" }}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Card>
+      <Box padding="10px" />
+    </Grid>
+  );
+};
+
 const MyPage = () => {
   const { User } = useUserStore();
-  return <ProfessorMyPage user={User} />;
-  //return User.isProfessor ? <ProfessorMyPage /> : <Box>MyPage</Box>;
+
+  const [labData, setLabData] = useState({});
+
+  useEffect(() => {
+    const getLabData = async () => {
+      try {
+        const labData = await fetchMyLab();
+        if (labData) {
+          console.log(labData);
+          setLabData(labData);
+        }
+      } catch (error) {
+        // 에러 처리
+      }
+    };
+
+    if (User.isProfessor || User.isResearcher) {
+      getLabData();
+    }
+  }, [User]);
+
+  return User.isProfessor ? (
+    <ProfessorMyPage user={User} labData={labData} />
+  ) : (
+    <UserMyPage user={User} labData={labData} />
+  );
 };
 
 export default MyPage;
