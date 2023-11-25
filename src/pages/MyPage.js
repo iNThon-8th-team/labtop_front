@@ -213,6 +213,26 @@ const UserMyPage = ({ user, labData }) => {
         </Grid>
       </Card>
       <Box padding="10px" />
+      <Grid container spacing={5} justifyContent="center">
+        <Grid item xs={5} md={3}>
+          <Button
+            sx={{ width: "100%", height: "50px" }}
+            variant="contained"
+            onClick={() => navigate("/")}
+          >
+            <Typography variant="h4" color={COLORS.white}>
+              내 포토폴리오 관리하기
+            </Typography>
+          </Button>
+        </Grid>
+        <Grid item xs={5} md={3}>
+          <Button sx={{ width: "100%", height: "50px" }} variant="contained">
+            <Typography variant="h4" color={COLORS.white}>
+              새 스터디 글 작성하기
+            </Typography>
+          </Button>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
