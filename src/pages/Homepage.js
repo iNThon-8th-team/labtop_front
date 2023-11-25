@@ -1,5 +1,5 @@
 // HomePage.js
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Professor from "../img/professor.png";
 import oneki from "../img/oneki.png";
@@ -10,11 +10,38 @@ import { Box, Button, Divider, Typography } from "@mui/material";
 import { COLORS } from "../lib/styles/theme";
 import { Block } from "@mui/icons-material";
 import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
+import { postSearchApi, postCategoryApi } from "../api/labApi";
+import { enqueueSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const categories = [
+    "경영대학",
+    "문과대학",
+    "생명과학",
+    "정경대학",
+    "이과대학",
+    "공과대학",
+    "의과대학",
+    "사범대학",
+    "간호대학",
+    "정보대학",
+    "국제대학",
+    "보건과학",
+    "디자인",
+    "미디어",
+    "자유전공",
+    "모빌리티",
+    "보안",
+    "심리학부",
+  ];
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -22,6 +49,34 @@ function HomePage() {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+
+  const handleSearchSubmit = () => {
+    postSearchApi(search)
+      .then((res) => {
+        console.log(res);
+
+        navigate("/lab");
+      })
+      .catch((err) => {
+        enqueueSnackbar("검색에 실패하였습니다.", {
+          variant: "error",
+        });
+      });
+  };
+
+  const handleCategorySubmit = (category) => {
+    postCategoryApi(category)
+      .then((res) => {
+        console.log(res);
+        navigate("/lab");
+      })
+      .catch((err) => {
+        enqueueSnackbar("내기에 실패하였습니다.", {
+          variant: "error",
+        });
+      });
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Grid container spacing={2}>
@@ -71,109 +126,47 @@ function HomePage() {
               fullWidth
               label="랩실명 혹은 교수명으로 검색하세요."
               id="fullWidth"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)} // 'setValue' 대신 'onChange' 이벤트를 사용하여 값을 업데이트합니다.
+              sx={{
+                marginBottom: "10px",
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon />
+                    <IconButton onClick={handleSearchSubmit}>
+                      <SearchIcon />
+                    </IconButton>
                   </InputAdornment>
                 ),
               }}
             />
-            <Grid container spacing={3}>
-              <Button
-                sx={{
-                  marginTop: "40px",
-                  width: "84px",
-                  height: "30px",
-                  border: 1, // 테두리 두께를 지정
-                  borderColor: COLORS.black, // 테두리 색상 지정
-                  color: COLORS.black,
-                  borderRadius: "10px", // 둥근 모서리의 반경을 지정
-                  display: "flex",
-                  alignItems: "center", // 수직 중앙 정렬
-                  justifyContent: "center", // 수평 중앙 정렬
-                  fontSize: "14px",
-                  marginLeft: "37px",
-                }}
-              >
-                컴퓨터공학
-              </Button>
 
-              <Button
-                sx={{
-                  marginTop: "40px",
-                  width: "84px",
-                  height: "30px",
-                  border: 1, // 테두리 두께를 지정
-                  borderColor: COLORS.black, // 테두리 색상 지정
-                  color: COLORS.black,
-                  borderRadius: "10px", // 둥근 모서리의 반경을 지정
-                  display: "flex",
-                  alignItems: "center", // 수직 중앙 정렬
-                  justifyContent: "center", // 수평 중앙 정렬
-                  fontSize: "14px",
-                  marginLeft: "10px",
-                }}
-              >
-                생명공학
-              </Button>
-
-              <Button
-                sx={{
-                  marginTop: "40px",
-                  width: "84px",
-                  height: "30px",
-                  border: 1, // 테두리 두께를 지정
-                  borderColor: COLORS.black, // 테두리 색상 지정
-                  color: COLORS.black,
-                  borderRadius: "10px", // 둥근 모서리의 반경을 지정
-                  display: "flex",
-                  alignItems: "center", // 수직 중앙 정렬
-                  justifyContent: "center", // 수평 중앙 정렬
-                  fontSize: "14px",
-                  marginLeft: "10px",
-                }}
-              >
-                화학공학
-              </Button>
-
-              <Button
-                sx={{
-                  marginTop: "40px",
-                  width: "84px",
-                  height: "30px",
-                  border: 1, // 테두리 두께를 지정
-                  borderColor: COLORS.black, // 테두리 색상 지정
-                  color: COLORS.black,
-                  borderRadius: "10px", // 둥근 모서리의 반경을 지정
-                  display: "flex",
-                  alignItems: "center", // 수직 중앙 정렬
-                  justifyContent: "center", // 수평 중앙 정렬
-                  fontSize: "14px",
-                  marginLeft: "10px",
-                }}
-              >
-                기계공학
-              </Button>
-
-              <Button
-                sx={{
-                  marginTop: "40px",
-                  width: "84px",
-                  height: "30px",
-                  border: 1, // 테두리 두께를 지정
-                  borderColor: COLORS.black, // 테두리 색상 지정
-                  color: COLORS.black,
-                  borderRadius: "10px", // 둥근 모서리의 반경을 지정
-                  display: "flex",
-                  alignItems: "center", // 수직 중앙 정렬
-                  justifyContent: "center", // 수평 중앙 정렬
-                  fontSize: "14px",
-                  marginLeft: "10px",
-                }}
-              >
-                인공지능
-              </Button>
+            <Grid container spacing={1}>
+              {categories.map((category, index) => (
+                <Grid item key={category} xs={2}>
+                  <Button
+                    sx={{
+                      marginTop: "4px",
+                      marginBottom: "4px",
+                      width: "70px",
+                      height: "30px",
+                      border: 1,
+                      borderColor: COLORS.black,
+                      color: COLORS.black,
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "14px",
+                      marginLeft: "6px", // 첫 번째 버튼을 제외하고 왼쪽 여백을 추가합니다.
+                    }}
+                    onClick={() => handleCategorySubmit(category)}
+                  >
+                    {category}
+                  </Button>
+                </Grid>
+              ))}
             </Grid>
           </Box>
         </Grid>
@@ -184,7 +177,13 @@ function HomePage() {
         </Grid>
       </Grid>
 
-      <Divider sx={{ borderColor: COLORS.backgroundGrey, borderWidth: 0.11 }} />
+      <Divider
+        sx={{
+          marginTop: "10px",
+          borderColor: COLORS.backgroundGrey,
+          borderWidth: 0.11,
+        }}
+      />
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
