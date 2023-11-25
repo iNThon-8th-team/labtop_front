@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { COLORS } from "../lib/styles/theme";
 import { Image } from "@mui/icons-material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { fetchLabData } from "../api/labApi";
 import { fetchBoardData } from "../api/boardApi";
 
@@ -18,6 +18,11 @@ const LabDetailPage = () => {
   const { labId } = useParams();
   const [labData, setLabData] = useState(null);
   const [boardData, setBoardData] = useState(null);
+  const navigate = useNavigate();
+
+  const handleContactClick = () => {
+    navigate("/contact"); // 'contact'는 Contact 페이지의 경로입니다.
+  };
 
   const formatDate = (dateString) => {
     const options = {
@@ -70,9 +75,15 @@ const LabDetailPage = () => {
             >
               Subscribe
             </Button>
-            <Button variant="contained" sx={{ marginLeft: "10px" }}>
-              Contact
-            </Button>
+            {labData?.isRecruiting && (
+              <Button
+                variant="contained"
+                sx={{ marginLeft: "10px" }}
+                onClick={handleContactClick}
+              >
+                Contact
+              </Button>
+            )}
           </Box>
         </Box>
 

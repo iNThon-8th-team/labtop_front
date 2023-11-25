@@ -12,9 +12,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { postCategoryApi } from "../api/labApi";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate, useLocation } from "react-router-dom";
+import { postSearchApi } from "../api/labApi";
 
 import { labCategories } from "../models/labCategories";
-
 
 const LabListPage = () => {
   const [search, setSearch] = useState("");
