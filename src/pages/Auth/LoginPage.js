@@ -144,7 +144,7 @@ const LoginPage = () => {
                     </Typography>
                     <Typography
                       fontSize={"14px"}
-                      color={COLORS.plentiBlue}
+                      color={COLORS.labtopPrimary}
                       onClick={() => {
                         changeSelection(navBarEnum.SIGNUP);
                         navigate("/auth/signup");
