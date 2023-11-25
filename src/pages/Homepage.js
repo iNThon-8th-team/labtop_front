@@ -19,7 +19,7 @@ import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 
 function HomePage() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(null);
   const navigate = useNavigate();
   const categories = [
     "경영대학",
@@ -55,7 +55,7 @@ function HomePage() {
       .then((res) => {
         console.log(res);
 
-        navigate("/lab");
+        navigate("/lab", { state: { searchresult: search } });
       })
       .catch((err) => {
         enqueueSnackbar("검색에 실패하였습니다.", {
@@ -68,7 +68,7 @@ function HomePage() {
     postCategoryApi(category)
       .then((res) => {
         console.log(res);
-        navigate("/lab");
+        navigate("/lab", { state: { result: category } });
       })
       .catch((err) => {
         enqueueSnackbar("내기에 실패하였습니다.", {
@@ -205,6 +205,7 @@ function HomePage() {
               sx={{
                 height: "140px",
               }}
+              onClick={() => navigate(`/lab/21`)}
             >
               <img src={oneki} alt="oneki" width="360px" height="100px" />
               <Typography variant="h4">정원기 교수</Typography>

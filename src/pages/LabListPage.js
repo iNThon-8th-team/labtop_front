@@ -15,19 +15,16 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { postSearchApi, postCategoryApi } from "../api/labApi";
 import { enqueueSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const LabListPage = () => {
-  const [categoryresult, setcategoryresult] = useState();
-  const navigate = useNavigate();
+  const [search, setSearch] = useState("");
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+  const [categoryresult, setcategoryresult] = useState();
+  const [searchresult, setsearchresult] = useState();
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleCategorySubmit = (category) => {
     postCategoryApi(category)
@@ -41,6 +38,53 @@ const LabListPage = () => {
         });
       });
   };
+  const category = location.state?.result;
+
+  useEffect(() => {
+    if (category != null) {
+      handleCategorySubmit(category);
+    }
+  }, [category]); // category 값이 변경될 때마다 이 effect가 실행됩니다.
+
+  const handleSearchSubmit = () => {
+    postSearchApi(search)
+      .then((res) => {
+        console.log(res);
+        setsearchresult(res);
+      })
+      .catch((err) => {
+        enqueueSnackbar("검색에 실패하였습니다.", {
+          variant: "error",
+        });
+      });
+  };
+  const handleSearchBeforeSubmit = () => {
+    postSearchApi(searchfrombefore)
+      .then((res) => {
+        console.log(res);
+        setsearchresult(res);
+      })
+      .catch((err) => {
+        enqueueSnackbar("검색에 실패하였습니다.", {
+          variant: "error",
+        });
+      });
+  };
+  const searchfrombefore = location.state?.searchresult;
+
+  useEffect(() => {
+    if (searchfrombefore != null) {
+      handleSearchBeforeSubmit(searchfrombefore);
+    }
+  }, [searchfrombefore]); // category 값이 변경될 때마다 이 effect가 실행됩니다.
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
 
   const categories = [
     "경영대학",
@@ -69,6 +113,8 @@ const LabListPage = () => {
         <TextField
           label="랩실명 혹은 교수명으로 검색하세요."
           id="fullWidth"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)} // 'setValue' 대신 'onChange' 이벤트를 사용하여 값을 업데이트합니다.
           sx={{
             width: "70%",
             marginBottom: "10px",
@@ -76,7 +122,7 @@ const LabListPage = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="start">
-                <IconButton>
+                <IconButton onClick={handleSearchSubmit}>
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>
@@ -128,45 +174,47 @@ const LabListPage = () => {
       />
       <Box sx={{ marginTop: "20px", marginLeft: "50px", marginRight: "50px" }}>
         <Grid container spacing={3}>
-          {categoryresult?.map((lab) => (
-            <Grid
-              item
-              xs
-              key={lab.name}
-              onClick={() => navigate(`/lab/${lab.id}`)}
-            >
-              <Item>
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="space-around"
-                  sx={{ height: "180px" }}
-                >
-                  <Grid item>
-                    <img
-                      src={informatics}
-                      alt={lab.name}
-                      width="300px"
-                      height="100px"
-                    />
+          {(categoryresult?.length > 0 ? categoryresult : searchresult)?.map(
+            (lab) => (
+              <Grid
+                item
+                xs
+                key={lab.name}
+                onClick={() => navigate(`/lab/${lab.id}`)}
+              >
+                <Item>
+                  <Grid
+                    container
+                    direction="column"
+                    justifyContent="space-around"
+                    sx={{ height: "180px" }}
+                  >
+                    <Grid item>
+                      <img
+                        src={informatics}
+                        alt={lab.name}
+                        width="300px"
+                        height="100px"
+                      />
+                    </Grid>
+                    <Grid item paddingX={0.5}>
+                      <Typography
+                        variant="h3"
+                        maxHeight={"50px"}
+                        overflow="hidden"
+                      >
+                        {lab.name}
+                      </Typography>
+                      <Box height="2px" />
+                      <Typography variant="h4">
+                        {lab.professor.username}교수
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item paddingX={0.5}>
-                    <Typography
-                      variant="h3"
-                      maxHeight={"50px"}
-                      overflow="hidden"
-                    >
-                      {lab.name}
-                    </Typography>
-                    <Box height="2px" />
-                    <Typography variant="h4">
-                      {lab.professor.username}교수
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Item>
-            </Grid>
-          ))}
+                </Item>
+              </Grid>
+            )
+          )}
         </Grid>
       </Box>
     </Box>
