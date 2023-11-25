@@ -9,7 +9,7 @@ export const AUTH_TOKEN_NAME = "Authorization";
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: 1000,
+  timeout: 2000,
   headers: { "Content-Type": "application/json; charset=utf-8" },
   withCredentials: true,
 });

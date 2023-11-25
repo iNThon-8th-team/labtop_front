@@ -1,20 +1,47 @@
 import React, { useState, useEffect } from "react";
-import { Card, Box, Divider, Typography, Button } from "@mui/material";
+import {
+  Card,
+  Box,
+  Divider,
+  Typography,
+  Button,
+  CardContent,
+  CardHeader,
+} from "@mui/material";
 import { COLORS } from "../lib/styles/theme";
 import { Image } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { fetchLabData } from "../api/labApi";
+import { fetchBoardData } from "../api/boardApi";
 
 const LabDetailPage = () => {
   const { labId } = useParams();
   const [labData, setLabData] = useState(null);
+  const [boardData, setBoardData] = useState(null);
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+    return new Intl.DateTimeFormat("ko-KR", options).format(
+      new Date(dateString)
+    );
+  };
 
   useEffect(() => {
     const getLabData = async () => {
       try {
         const data = await fetchLabData(labId);
+        const boarddata = await fetchBoardData(labId);
         console.log(data);
+        console.log(boarddata);
         setLabData(data); // 상태를 업데이트합니다.
+        setBoardData(boarddata);
       } catch (error) {
         // 에러 처리
       }
@@ -141,10 +168,32 @@ const LabDetailPage = () => {
           height: "20px",
         }}
       ></Box>
-      <Card sx={{ padding: "20px" }}>
+      <Card sx={{ padding: "10px" }}>
         <Box padding="5px">
           <Typography variant="h3">Announcements</Typography>
         </Box>
+        {boardData?.map(
+          (board, index) =>
+            board.isNotice && (
+              <Card key={board.id} sx={{ marginBottom: 3 }}>
+                <CardHeader
+                  title={board.title}
+                  subheader={formatDate(board.createdAt)}
+                  titleTypographyProps={{
+                    variant: "h4",
+                    color: "primary.main",
+                  }}
+                  subheaderTypographyProps={{ variant: "subtitle2" }}
+                />
+                <Divider variant="middle" />
+                <CardContent padding="2px">
+                  <Typography variant="body1" color="text.secondary">
+                    {board.content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            )
+        )}
       </Card>
     </Box>
   );
