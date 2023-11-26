@@ -13,11 +13,17 @@ import { Image } from "@mui/icons-material";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchLabData } from "../api/labApi";
 import { fetchBoardData } from "../api/boardApi";
+import PublicationListComponent from "../components/PublicationListComponent";
+import { getPublicationList } from "../api/publicationApi";
+import BungalowIcon from "@mui/icons-material/Bungalow";
 
 const LabDetailPage = () => {
   const { labId } = useParams();
   const [labData, setLabData] = useState(null);
   const [boardData, setBoardData] = useState(null);
+  const [publicationsWithAuthorList, setPublicationsWithAuthorList] = useState(
+    []
+  );
   const navigate = useNavigate();
 
   const handleContactClick = () => {
@@ -43,17 +49,17 @@ const LabDetailPage = () => {
       try {
         const data = await fetchLabData(labId);
         const boarddata = await fetchBoardData(labId);
-        console.log(data);
-        console.log(boarddata);
+        const publicationsWithAuthor = await getPublicationList(labId);
         setLabData(data); // 상태를 업데이트합니다.
         setBoardData(boarddata);
+        setPublicationsWithAuthorList(publicationsWithAuthor);
       } catch (error) {
         // 에러 처리
       }
     };
 
     getLabData();
-  }, []);
+  }, [labId]);
 
   return (
     <Box width="100%">
@@ -66,8 +72,12 @@ const LabDetailPage = () => {
             marginBottom: "10px",
           }}
         >
-          <Typography variant="h2">{labData?.name}</Typography>
-
+          <Box flexDirection={"row"} display={"flex"} alignItems={"center"}>
+            <BungalowIcon sx={{ fontSize: 40 }} />
+            <Typography variant="h2" marginLeft={"5px"}>
+              {labData?.name}
+            </Typography>
+          </Box>
           <Box>
             <Button
               variant={labData?.isSubscribed ? "contained" : "outlined"}
@@ -120,22 +130,24 @@ const LabDetailPage = () => {
             >
               Professor
             </Typography>
-
-            <Box
-              sx={{
-                marginLeft: "15px",
-                marginBottom: "4px",
-              }}
-            >
-              {labData?.professor.username}
-            </Box>
-            <Box
-              sx={{
-                marginLeft: "15px",
-                marginBottom: "4px",
-              }}
-            >
-              {labData?.professor.email}
+            <Box flexDirection={"row"} display={"flex"} alignItems={"center"}>
+              <Box marginLeft={"10px"}>
+                <Box
+                  sx={{
+                    marginLeft: "15px",
+                    marginBottom: "4px",
+                  }}
+                >
+                  {labData?.professor.username}
+                </Box>
+                <Box
+                  sx={{
+                    marginLeft: "15px",
+                    marginBottom: "4px",
+                  }}
+                ></Box>
+                {labData?.professor.email}
+              </Box>
             </Box>
             <Typography
               sx={{
@@ -160,7 +172,6 @@ const LabDetailPage = () => {
                 </Box>
               ))}
             </Box>
-
             {/* <Typography variant="h4">Alumni</Typography> */}
           </Box>
         </Box>
@@ -173,38 +184,49 @@ const LabDetailPage = () => {
         <Box padding="5px">
           <Typography variant="h3">Publications</Typography>
         </Box> */}
-      </Card>
-      <Box
-        sx={{
-          height: "20px",
-        }}
-      ></Box>
-      <Card sx={{ padding: "10px" }}>
-        <Box padding="5px">
-          <Typography variant="h3">Announcements</Typography>
+        <Box
+          sx={{
+            height: "20px",
+          }}
+        ></Box>
+        <Card sx={{ padding: "10px" }}>
+          <Box padding="5px">
+            <Typography variant="h3">Announcements</Typography>
+          </Box>
+          {boardData?.map(
+            (board, index) =>
+              board.isNotice && (
+                <Card key={board.id} sx={{ marginBottom: 3 }}>
+                  <CardHeader
+                    title={board.title}
+                    subheader={formatDate(board.createdAt)}
+                    titleTypographyProps={{
+                      variant: "h4",
+                      color: "primary.main",
+                    }}
+                    subheaderTypographyProps={{ variant: "subtitle2" }}
+                  />
+                  <Divider variant="middle" />
+                  <CardContent padding="2px">
+                    <Typography variant="body1" color="text.secondary">
+                      {board.content}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              )
+          )}
+        </Card>
+        <Typography marginTop={"20px"} marginLeft={"15px"} variant="h3">
+          Publications
+        </Typography>
+        <Box flexDirection={"row"} display={"flex"} alignItems={"center"}>
+          {publicationsWithAuthorList.map((publicationsWithAuthor, index) => (
+            <PublicationListComponent
+              key={index}
+              publicationsWithAuthor={publicationsWithAuthor}
+            />
+          ))}
         </Box>
-        {boardData?.map(
-          (board, index) =>
-            board.isNotice && (
-              <Card key={board.id} sx={{ marginBottom: 3 }}>
-                <CardHeader
-                  title={board.title}
-                  subheader={formatDate(board.createdAt)}
-                  titleTypographyProps={{
-                    variant: "h4",
-                    color: "primary.main",
-                  }}
-                  subheaderTypographyProps={{ variant: "subtitle2" }}
-                />
-                <Divider variant="middle" />
-                <CardContent padding="2px">
-                  <Typography variant="body1" color="text.secondary">
-                    {board.content}
-                  </Typography>
-                </CardContent>
-              </Card>
-            )
-        )}
       </Card>
     </Box>
   );
