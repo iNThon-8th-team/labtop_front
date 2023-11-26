@@ -32,3 +32,32 @@ export const postRegisterApiAuth = async (
 
   return res.data;
 };
+
+export const postImageUser = async (data) => {
+  const res = await instance.post(`${BASE_URL}/image/user`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+};
+
+export const putUpdateUser = async (introduction, username) => {
+  const res = await instance.put(`${BASE_URL}/user`, {
+    introduction,
+    username,
+  });
+  console.log(res);
+
+  return res.data;
+};
+
+export const fetchUserData = async () => {
+  try {
+    const res = await instance.get(`${BASE_URL}/user`);
+    return res.data;
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+};

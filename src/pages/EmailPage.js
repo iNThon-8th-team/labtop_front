@@ -90,13 +90,20 @@ const EmailPage = () => {
   };
   const extractProfessorUsernames = (mails) => {
     const professorSet = new Set();
+    const StudentSet = new Set();
     mails?.forEach((mail) => {
+      const val1 = { name: mail.sender.username, id: mail.sender.id };
+      const val2 = { name: mail.receiver.username, id: mail.receiver.id };
       if (mail.receiving) {
-        const val = { name: mail.sender.username, id: mail.sender.id };
-        if (!hasObject(professorSet, val)) professorSet.add(val);
+        if (!hasObject(professorSet, val1)) {
+          professorSet.add(val1);
+          StudentSet.add(val2);
+        }
       } else {
-        const val = { name: mail.receiver.username, id: mail.receiver.id };
-        if (!hasObject(professorSet, val)) professorSet.add(val);
+        if (!hasObject(professorSet, val2)) {
+          professorSet.add(val2);
+          StudentSet.add(val1);
+        }
       }
     });
     // Set을 배열로 변환하고 최대 5명까지만 포함
