@@ -1,9 +1,14 @@
 import { Box, Button, Chip, Grid, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomInputComponent from "../components/CustomInputComponent";
 import { COLORS } from "../lib/styles/theme";
+import { getUserPortfolio, putUserPortfolio } from "../api/userApi";
+import useUserStore from "../stores/LoginUser";
+import { useNavigate } from "react-router-dom";
 
 const PortfolioWritePage = () => {
+  const navigate = useNavigate();
+
   const [department, setDepartment] = useState("");
   const [year, setYear] = useState(2000);
   const [semester, setSemester] = useState(1);
@@ -35,7 +40,7 @@ const PortfolioWritePage = () => {
   };
 
   const handleSubmit = () => {
-    console.log({
+    console.log(
       department,
       year,
       semester,
@@ -43,9 +48,47 @@ const PortfolioWritePage = () => {
       certificate,
       award,
       link,
-      additional,
+      additional
+    );
+    putUserPortfolio(
+      department,
+      year,
+      semester,
+      credit,
+      certificate,
+      award,
+      link,
+      additional
+    ).then((res) => {
+      console.log(res);
+      navigate("/profilepage");
     });
   };
+
+  const { User } = useUserStore();
+  useEffect(() => {
+    const getPortfolio = async () => {
+      try {
+        const labData = await getUserPortfolio(User.id);
+        if (labData) {
+          setDepartment(labData.department);
+          setYear(labData.year);
+          setSemester(labData.semester);
+          setCredit(labData.credit);
+          setCertificate(labData.certificate);
+          setCertificateStr(labData.certificate.join(", "));
+          setAward(labData.award);
+          setAwardStr(labData.award.join(", "));
+          setLink(labData.link);
+          setAdditional(labData.additional);
+        }
+      } catch (error) {
+        // 에러 처리
+      }
+    };
+
+    getPortfolio();
+  }, []);
 
   return (
     <Box p={1}>
