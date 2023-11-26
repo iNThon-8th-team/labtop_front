@@ -17,12 +17,11 @@ const ContactForm = () => {
     event.preventDefault();
     postMailApi(message, professorId).then((res) => {
       console.log(res);
-      console.log("Form Submitted", { name, email, subject, message });
+      console.log("Form Submitted", { name, subject, message });
       enqueueSnackbar("메일 전송에 성공하였습니다.", {
         variant: "success",
       });
     });
-
   };
 
   return (
