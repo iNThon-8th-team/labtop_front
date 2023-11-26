@@ -23,6 +23,16 @@ export const putUserPortfolio = async (
   link,
   additional
 ) => {
+  console.log({
+    department,
+    year,
+    semester,
+    credit,
+    certificate,
+    award,
+    link,
+    additional,
+  });
   const res = await instance.put(`${userApiPrefix}/portfolio`, {
     department,
     year,
