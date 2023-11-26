@@ -3,6 +3,15 @@ import instance from "./axios";
 const BASE_URL = "http://localhost:4000";
 const authApiPrefix = `${BASE_URL}/lab`;
 
+export const postImageLab = async (data) => {
+  const res = await instance.post(`${BASE_URL}/image/lab`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+};
+
 export const postCategoryApi = async (category) => {
   const res = await instance.get(`${authApiPrefix}?category=${category}`);
   return res.data;
