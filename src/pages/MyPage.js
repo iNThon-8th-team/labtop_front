@@ -9,6 +9,8 @@ import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBook
 import { COLORS } from "../lib/styles/theme";
 import { useNavigate } from "react-router-dom";
 import { fetchMyLab } from "../api/labApi";
+import { fetchUserData } from "../api/authApi";
+import EmojiPeopleOutlinedIcon from "@mui/icons-material/EmojiPeopleOutlined";
 
 const ProfessorMyPage = ({ user, labData }) => {
   const navigate = useNavigate();
@@ -138,6 +140,28 @@ const ProfessorMyPage = ({ user, labData }) => {
 };
 
 const UserMyPage = ({ user, labData }) => {
+  const [introduction, setIntroduction] = useState("");
+  const [profile, setProfile] = useState("");
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const userData = await fetchUserData();
+        console.log(userData);
+        if (userData) {
+          setIntroduction(userData.introduction ? userData.introduction : "");
+          setProfile(
+            userData.profile ? "http://localhost:4000/" + userData.profile : ""
+          );
+          console.log(userData.profile);
+        }
+      } catch (error) {
+        // 에러 처리
+      }
+    };
+
+    getUserData();
+  }, []);
   const navigate = useNavigate();
   const handleEmailClick = () => {
     navigate("/email");
@@ -190,6 +214,14 @@ const UserMyPage = ({ user, labData }) => {
                 <Typography variant="h4">{user.email}</Typography>
               </Grid>
             </Grid>
+            <Grid container spacing={1} paddingX={1}>
+              <Grid item>
+                <EmojiPeopleOutlinedIcon />
+              </Grid>
+              <Grid item>
+                <Typography variant="h4">{introduction}</Typography>
+              </Grid>
+            </Grid>
             {user.isResearcher ?? (
               <>
                 <Grid container spacing={1} paddingX={1}>
@@ -222,7 +254,7 @@ const UserMyPage = ({ user, labData }) => {
           <Grid item paddingX={2}>
             <Box width="200px" height="200px">
               <img
-                src={PLRG}
+                src={profile}
                 alt="Professor"
                 width="200px"
                 height="200px"
@@ -264,6 +296,17 @@ const UserMyPage = ({ user, labData }) => {
               onClick={handleEmailClick}
             >
               이메일 목록보기
+            </Typography>
+          </Button>
+        </Grid>
+        <Grid item xs={5} md={3}>
+          <Button
+            sx={{ width: "100%", height: "50px" }}
+            variant="contained"
+            onClick={() => navigate("/my/write")}
+          >
+            <Typography variant="h4" color={COLORS.white}>
+              내 정보 수정하기
             </Typography>
           </Button>
         </Grid>

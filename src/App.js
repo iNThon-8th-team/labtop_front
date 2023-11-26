@@ -11,6 +11,7 @@ import HomePage from "./pages/Homepage.js";
 import Contact from "./pages/Contact.js";
 import ContactEmail from "./pages/ContactEmail.js";
 import EmailPage from "./pages/EmailPage.js";
+import MyPageWritePage from "./pages/MyPageWritePage.js";
 import ProfilePage from "./pages/ProfilePage.js";
 
 import { AxiosInterceptor } from "./api/axios.js";
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/profilepage" element={<ProfilePage />} />
           <Route element={<AuthRoute />}>
             <Route path="/my" element={<MyPage />} />
+            <Route path="/my/write" element={<MyPageWritePage />} />
             <Route path="/lab/write" element={<LabWritePage />} />
             <Route path="/publish/write" element={<PublishWritePage />} />
             <Route path="/study/write" element={<StudyWritePage />} />
