@@ -20,6 +20,7 @@ import StyledMaterialDesignContent from "./lib/styles/CustomSnackbarProvider.js"
 import PublishWritePage from "./pages/PublishWritePage.js";
 import StudyListPage from "./pages/StudyListPage.js";
 import StudyWritePage from "./pages/StudyWritePage.js";
+import PortfolioWritePage from "./pages/PortfolioWritePage.js";
 
 const AuthRoute = () => {
   const { isLogin } = useUserStore();
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="/lab/write" element={<LabWritePage />} />
             <Route path="/publish/write" element={<PublishWritePage />} />
             <Route path="/study/write" element={<StudyWritePage />} />
+            <Route path="/portfolio/write" element={<PortfolioWritePage />} />
           </Route>
         </Route>
       </Routes>

@@ -238,7 +238,7 @@ const UserMyPage = ({ user, labData }) => {
           <Button
             sx={{ width: "100%", height: "50px" }}
             variant="contained"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/portfolio/write")}
           >
             <Typography variant="h4" color={COLORS.white}>
               내 포토폴리오 관리하기
