@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { labCategories } from "../models/labCategories";
 import { COLORS } from "../lib/styles/theme";
-import { fetchMyLab, postLabApi, putLabApi } from "../api/labApi";
+import { fetchMyLab, postImageLab, postLabApi, putLabApi } from "../api/labApi";
 import { enqueueSnackbar } from "notistack";
 import useUserStore from "../stores/LoginUser";
 import { useNavigate } from "react-router";
@@ -20,6 +20,14 @@ const LabWritePage = () => {
   const [name, setName] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [category, setCategory] = useState("");
+
+  const [selectedFile, setSelectedFile] = useState();
+  const [isFilePicked, setIsFilePicked] = useState(false);
+
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+    setIsFilePicked(true);
+  };
 
   const [lab, setLab] = useState({});
   const { User } = useUserStore();
@@ -69,6 +77,13 @@ const LabWritePage = () => {
       putLabApi(lab.id, name, introduction, category);
     } else {
       postLabApi(name, introduction, category);
+    }
+
+    if (isFilePicked) {
+      var data = new FormData();
+      data.append("image", selectedFile);
+      data.append("id", lab.id);
+      postImageLab(data);
     }
     navigate("/my");
   };
@@ -126,6 +141,21 @@ const LabWritePage = () => {
             setValue={setIntroduction}
             multiline={true}
           />
+        </Grid>
+        <Grid container spacing={1} item alignItems="start">
+          <Grid item xs="auto">
+            <Typography variant="h4" paddingTop={2}>
+              연구소 대표 사진
+            </Typography>
+          </Grid>
+          <Button
+            sx={{ width: "10%", height: "30px" }}
+            variant="contained"
+            component="label"
+          >
+            파일 선택
+            <input type="file" hidden onChange={changeHandler} />
+          </Button>
         </Grid>
       </Grid>
       <Box display="flex" paddingTop={2} justifyContent="center">
