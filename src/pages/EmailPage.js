@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MailList } from "../api/contactApi";
 import { Box, Paper, Typography, Tabs, Tab } from "@mui/material";
+import { COLORS } from "../lib/styles/theme";
 
 // 현재 사용자의 이메일을 여기에 추가합니다.
 
@@ -84,6 +85,11 @@ const EmailPage = () => {
       <Typography variant="h4" sx={{ textAlign: "center", mb: 3 }}>
         메일 대화
       </Typography>
+      <Tabs value={currentTab} onChange={handleTabChange} centered>
+        {professorNames.map((name, index) => (
+          <Tab key={name} label={name} />
+        ))}
+      </Tabs>
       {filteredMails.map((email, index) => (
         <Box
           key={email.id}
@@ -105,7 +111,10 @@ const EmailPage = () => {
               mb: index < mailList.length - 1 ? 2 : 0,
             }}
           >
-            <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
+            <Typography
+              variant="body1"
+              sx={{ wordWrap: "break-word", color: COLORS.white }}
+            >
               {email.content}
             </Typography>
             <Typography
@@ -118,11 +127,6 @@ const EmailPage = () => {
           </Paper>
         </Box>
       ))}
-      <Tabs value={currentTab} onChange={handleTabChange} centered>
-        {professorNames.map((name, index) => (
-          <Tab key={name} label={name} />
-        ))}
-      </Tabs>
     </Box>
   );
 };
