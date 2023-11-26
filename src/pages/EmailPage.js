@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MailList } from "../api/contactApi";
 import { Box, Paper, Typography, Tabs, Tab, Button, Grid } from "@mui/material";
 import { COLORS } from "../lib/styles/theme";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, navigate } from "react-router-dom";
 import useUserStore from "../stores/LoginUser";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
@@ -88,6 +88,7 @@ const EmailPage = () => {
     }
     return false;
   };
+
   const extractProfessorUsernames = (mails) => {
     const professorSet = new Set();
     const StudentSet = new Set();
@@ -108,6 +109,13 @@ const EmailPage = () => {
     });
     // Set을 배열로 변환하고 최대 5명까지만 포함
     return Array.from(professorSet).slice(0, 5);
+  };
+
+  const movetoprofile = () => {
+    console.log(professorNames[currentTab]);
+    navigate("/profilepage", {
+      state: { searchresult: professorNames[currentTab] },
+    });
   };
 
   const formatDate = (dateString) => {
@@ -210,7 +218,7 @@ const EmailPage = () => {
           <Button
             sx={{ width: "80%", height: "50px", marginTop: "50px" }}
             variant="contained"
-            onClick={() => navigate("/email")}
+            onClick={movetoprofile}
           >
             <Typography variant="h4" color={COLORS.white}>
               이력서 보러가기
