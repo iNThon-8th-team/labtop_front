@@ -69,8 +69,20 @@ const StudyListPage = () => {
                     </Typography>
                   </Box>
                 )}
+
                 <Box marginTop={1}>
                   <Typography variant="h5">{study.content}</Typography>
+                </Box>
+                <Box marginTop={1}>
+                  <Typography variant="h6">
+                    <a
+                      href={study.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {study.link}
+                    </a>
+                  </Typography>
                 </Box>
               </Box>
             ))}
