@@ -1,6 +1,6 @@
 // Contact.js
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import {
   Box,
@@ -13,9 +13,12 @@ import {
 } from "@mui/material";
 
 const Contact = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const professorId = location.state?.searchresult;
+
   const handleContactClick = () => {
-    navigate("/contactemail"); // 'contact'는 Contact 페이지의 경로입니다.
+    navigate("/contactemail", { state: { searchresult: professorId } });
   };
   return (
     <Box sx={{ p: 4 }}>

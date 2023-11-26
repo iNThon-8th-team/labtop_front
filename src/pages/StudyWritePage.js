@@ -68,7 +68,7 @@ const StudyWritePage = () => {
       />
       {publish.publication.id && (
         <Box
-          sx={{ width: " 90%", maxWidth: "785px" }}
+          sx={{ width: "90%", maxWidth: "785px" }}
           border={1}
           borderRadius={2}
           borderColor={COLORS.labtopPrimary}
