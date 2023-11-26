@@ -6,6 +6,7 @@ export const COLORS = {
   errorColor: "#DE3730",
   error90Color: "#FFDAD6",
   labtopPrimary: "#0DAE1D",
+  labtopPrimaryLight: "#C5DDC7",
   textDefault: "#373535",
   textDisabled: "#8D8D8D",
   buttonDisabled: "#C0C0C0",

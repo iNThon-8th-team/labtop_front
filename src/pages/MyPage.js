@@ -99,7 +99,7 @@ const ProfessorMyPage = ({ user, labData }) => {
       </Card>
       <Box padding="10px" />
       <Grid container spacing={5} justifyContent="center">
-        <Grid item xs={5} md={3}>
+        <Grid item xs={5} md={4}>
           <Button
             sx={{ width: "100%", height: "50px" }}
             variant="contained"
@@ -110,7 +110,7 @@ const ProfessorMyPage = ({ user, labData }) => {
             </Typography>
           </Button>
         </Grid>
-        <Grid item xs={5} md={3}>
+        <Grid item xs={5} md={4}>
           <Button
             sx={{ width: "100%", height: "50px" }}
             variant="contained"
@@ -186,7 +186,7 @@ const UserMyPage = ({ user, labData }) => {
                     <BiotechIcon />
                   </Grid>
                   <Grid item>
-                    <Typography variant="h4">{"연구소 이름"}</Typography>
+                    <Typography variant="h4">{labData.name}</Typography>
                   </Grid>
                 </Grid>
                 <Grid container spacing={1} paddingX={1}>
@@ -194,7 +194,7 @@ const UserMyPage = ({ user, labData }) => {
                     <LanguageIcon />
                   </Grid>
                   <Grid item>
-                    <Typography variant="h4">{"연구소 사이트 주소"}</Typography>
+                    <Typography variant="h4">{labData.introduction}</Typography>
                   </Grid>
                 </Grid>
                 <Grid container spacing={1} paddingX={1}>
@@ -223,7 +223,7 @@ const UserMyPage = ({ user, labData }) => {
       </Card>
       <Box padding="10px" />
       <Grid container spacing={5} justifyContent="center">
-        <Grid item xs={5} md={3}>
+        <Grid item xs={5} md={4}>
           <Button
             sx={{ width: "100%", height: "50px" }}
             variant="contained"
@@ -234,10 +234,14 @@ const UserMyPage = ({ user, labData }) => {
             </Typography>
           </Button>
         </Grid>
-        <Grid item xs={5} md={3}>
-          <Button sx={{ width: "100%", height: "50px" }} variant="contained">
+        <Grid item xs={5} md={4}>
+          <Button
+            sx={{ width: "100%", height: "50px" }}
+            variant="contained"
+            onClick={() => navigate(`/study/list/${user.id}`)}
+          >
             <Typography variant="h4" color={COLORS.white}>
-              새 스터디 글 작성하기
+              내 스터디 글 목록 보기
             </Typography>
           </Button>
         </Grid>

@@ -7,7 +7,6 @@ import { enqueueSnackbar } from "notistack";
 
 const ContactForm = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const location = useLocation();
@@ -23,6 +22,7 @@ const ContactForm = () => {
         variant: "success",
       });
     });
+
   };
 
   return (

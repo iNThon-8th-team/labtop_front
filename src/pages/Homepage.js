@@ -6,7 +6,7 @@ import oneki from "../img/oneki.png";
 import PhysicalComputing from "../img/physicalcomputing.png";
 import CVLAB from "../img/CVLAB.png";
 import { styled } from "@mui/material/styles";
-import { Box, Button, Chip, Divider, Typography } from "@mui/material";
+import { Box, Chip, Divider, Typography } from "@mui/material";
 import { COLORS } from "../lib/styles/theme";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
