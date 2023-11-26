@@ -1,8 +1,10 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getStudyList } from "../api/studyApi";
 import { useNavigate, useParams } from "react-router";
 import { getUserById } from "../api/userApi";
+import { COLORS } from "../lib/styles/theme";
+import { formatDate } from "../lib/utils/datetimeFormatter";
 
 const StudyListPage = () => {
   const { userId } = useParams();
@@ -13,16 +15,19 @@ const StudyListPage = () => {
   useEffect(() => {
     getStudyList(userId).then((res) => setStudyList(res));
     getUserById(userId).then((res) => setUser(res));
+    console.log(studyList);
   }, []);
 
   return (
-    <>
-      <Box
-        position="fixed"
-        top="68px"
-        right={0}
-        p={2} // Adjust padding as needed
-      >
+    <Box
+      component="form"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      <Box position="fixed" top="68px" right={15} p={2}>
         <Button
           size="large"
           variant="contained"
@@ -32,15 +37,41 @@ const StudyListPage = () => {
         </Button>
       </Box>
       {studyList.length > 0 ? (
-        <Box>
+        <Box padding={3}>
           <Typography variant="h2">{user.username}의 스터디 자료</Typography>
           <Box>
             {studyList.map((study) => (
-              <Box key={study.id}>
-                <Typography>{study.title}</Typography>
-                <Typography>{study.content}</Typography>
-                <Typography>{study.link}</Typography>
-                <Typography>{study.createdAt}</Typography>
+              <Box
+                border={1}
+                borderRadius={2}
+                borderColor={COLORS.labtopPrimary}
+                padding={2}
+                marginY={2}
+              >
+                <Grid
+                  container
+                  item
+                  key={study.id}
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <Typography variant="h3">{study.title}</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography>{formatDate(study.createdAt)}</Typography>
+                  </Grid>
+                </Grid>
+                {study.publication != null && (
+                  <Box marginTop={1}>
+                    <Typography variant="h5">
+                      {study.publication.title}
+                    </Typography>
+                  </Box>
+                )}
+                <Box marginTop={1}>
+                  <Typography variant="h5">{study.content}</Typography>
+                </Box>
               </Box>
             ))}
           </Box>
@@ -57,7 +88,7 @@ const StudyListPage = () => {
           </Typography>
         </Box>
       )}
-    </>
+    </Box>
   );
 };
 export default StudyListPage;
