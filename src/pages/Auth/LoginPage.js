@@ -118,7 +118,7 @@ const LoginPage = () => {
                     sx={{ ":hover": { cursor: "pointer" }, paddingX: "10px" }}
                   >
                     <Checkbox checked={remember} sx={{ marginLeft: "5px" }} />
-                    <Typography>Remeber Email</Typography>
+                    <Typography>Remember Email</Typography>
                   </Box>
                   <Grid item marginBottom={"10px"}>
                     <Button

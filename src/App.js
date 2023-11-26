@@ -54,7 +54,6 @@ const App = () => {
           <Route path="/study/list/:userId" element={<StudyListPage />} />
           <Route path="/board" element={<BoardListPage />} />
           <Route path="/profilepage" element={<ProfilePage />} />
-
           <Route element={<AuthRoute />}>
             <Route path="/my" element={<MyPage />} />
             <Route path="/lab/write" element={<LabWritePage />} />
