@@ -149,7 +149,12 @@ const LabWritePage = () => {
             </Typography>
           </Grid>
           <Button
-            sx={{ width: "10%", height: "30px" }}
+            sx={{
+              width: "10%",
+              height: "30px",
+              marginTop: "15px",
+              marginLeft: "15px",
+            }}
             variant="contained"
             component="label"
           >
