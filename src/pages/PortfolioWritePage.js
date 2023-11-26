@@ -53,7 +53,7 @@ const PortfolioWritePage = () => {
       <Grid container py={2}>
         <Grid container spacing={1} item alignItems="center">
           <Grid item>
-            <Typography variant="h4">이름</Typography>
+            <Typography variant="h4">학과</Typography>
           </Grid>
           <CustomInputComponent
             id="department-input"
