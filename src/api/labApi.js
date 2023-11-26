@@ -20,6 +20,10 @@ export const postSearchApi = async (search) => {
   const res = await instance.get(`${authApiPrefix}?search=${search}`);
   return res.data;
 };
+export const getLabApi = async (search) => {
+  const res = await instance.get(`${authApiPrefix}`);
+  return res.data;
+};
 export const postLabApi = async (name, introduction, category) => {
   const res = await instance.post(`${authApiPrefix}`, {
     name,

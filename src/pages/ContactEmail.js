@@ -1,18 +1,27 @@
 // ContactForm.js
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { postMailApi } from "../api/contactApi";
+import { enqueueSnackbar } from "notistack";
 
 const ContactForm = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const location = useLocation();
+
+  const professorId = location.state?.searchresult;
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // 폼 제출 로직을 여기에 구현합니다.
-    // 예: 서버로 POST 요청을 보내는 코드
-    console.log("Form Submitted", { name, email, subject, message });
+    postMailApi(message, professorId).then((res) => {
+      console.log(res);
+      console.log("Form Submitted", { name, subject, message });
+      enqueueSnackbar("메일 전송에 성공하였습니다.", {
+        variant: "success",
+      });
+    });
   };
 
   return (
@@ -25,22 +34,13 @@ const ContactForm = () => {
         alignItems: "center",
         justifyContent: "center",
       }}
+      onSubmit={handleSubmit}
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit}
     >
       <Typography variant="h2" sx={{ m: 2 }}>
         컨택 메일 작성하기
       </Typography>
-      <TextField
-        sx={{
-          width: "600px",
-        }}
-        required
-        label="성명"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
 
       <TextField
         sx={{
