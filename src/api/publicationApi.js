@@ -8,6 +8,11 @@ export const getPublicationById = async (publicationId) => {
   return res.data;
 };
 
+export const getPublicationList = async (labId) => {
+  const res = await instance.get(`${publicationApiPrefix}/list/${labId}`);
+  return res.data;
+};
+
 export const postPublication = async (title, content, link) => {
   const res = await instance.post(`${publicationApiPrefix}`, {
     title,
