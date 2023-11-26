@@ -12,6 +12,8 @@ const useUserStore = create(
         username: "",
         isProfessor: false,
         isResearcher: false,
+        introduction: "",
+        profile: "",
       },
 
       loginUser: (input) => {
@@ -30,6 +32,8 @@ const useUserStore = create(
             username: "",
             isProfessor: false,
             isResearcher: false,
+            introduction: "",
+            profile: "",
           },
         }));
         sessionStorage.removeItem("userStoragekey");
