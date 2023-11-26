@@ -12,7 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { postCategoryApi } from "../api/labApi";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate, useLocation } from "react-router-dom";
-import { postSearchApi } from "../api/labApi";
+import { postSearchApi, getLabApi } from "../api/labApi";
 
 import { labCategories } from "../models/labCategories";
 
@@ -44,6 +44,12 @@ const LabListPage = () => {
       handleCategorySubmit(category);
     }
   }, [category]); // category 값이 변경될 때마다 이 effect가 실행됩니다.
+
+  useEffect(() => {
+    getLabApi().then((res) => {
+      setsearchresult(res);
+    });
+  }, []); // category 값이 변경될 때마다 이 effect가 실행됩니다.
 
   const handleSearchSubmit = () => {
     postSearchApi(search)
