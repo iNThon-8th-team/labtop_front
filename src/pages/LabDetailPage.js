@@ -18,10 +18,11 @@ const LabDetailPage = () => {
   const { labId } = useParams();
   const [labData, setLabData] = useState(null);
   const [boardData, setBoardData] = useState(null);
+  const [professorId, setprofessorId] = useState(null);
   const navigate = useNavigate();
 
   const handleContactClick = () => {
-    navigate("/contact"); // 'contact'는 Contact 페이지의 경로입니다.
+    navigate("/contact", { state: { searchresult: professorId } });
   };
 
   const formatDate = (dateString) => {
@@ -47,6 +48,7 @@ const LabDetailPage = () => {
         console.log(boarddata);
         setLabData(data); // 상태를 업데이트합니다.
         setBoardData(boarddata);
+        setprofessorId(data?.professor.id);
       } catch (error) {
         // 에러 처리
       }

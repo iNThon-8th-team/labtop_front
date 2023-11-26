@@ -13,6 +13,7 @@ import { fetchMyLab } from "../api/labApi";
 const ProfessorMyPage = ({ user, labData }) => {
   const navigate = useNavigate();
   console.log(labData);
+
   return (
     <Grid
       container
@@ -127,6 +128,10 @@ const ProfessorMyPage = ({ user, labData }) => {
 
 const UserMyPage = ({ user, labData }) => {
   const navigate = useNavigate();
+  const handleEmailClick = () => {
+    navigate("/email");
+  };
+
   console.log(user);
   console.log(labData);
   return (
@@ -237,6 +242,17 @@ const UserMyPage = ({ user, labData }) => {
           >
             <Typography variant="h4" color={COLORS.white}>
               내 스터디 글 목록 보기
+            </Typography>
+          </Button>
+        </Grid>
+        <Grid item xs={5} md={3}>
+          <Button sx={{ width: "100%", height: "50px" }} variant="contained">
+            <Typography
+              variant="h4"
+              color={COLORS.white}
+              onClick={handleEmailClick}
+            >
+              이메일 목록보기
             </Typography>
           </Button>
         </Grid>
